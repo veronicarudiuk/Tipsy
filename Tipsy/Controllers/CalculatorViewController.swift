@@ -29,30 +29,14 @@ class CalculatorViewController: UIViewController {
         twentyPctButton.isSelected = false
         
         billTextField.endEditing(true)
-        
-        //        My solution:
-        //        switch sender {
-        //        case zeroPctButton:
-        //            zeroPctButton.isSelected = true
-        //            precent = 0.0
-        //        case tenPctButton:
-        //            tenPctButton.isSelected = true
-        //            precent = 0.1
-        //        case twentyPctButton:
-        //            twentyPctButton.isSelected = true
-        //            precent = 0.2
-        //        default:
-        //            break
-        //        }
-        
-        //        Angela solution:
+
         sender.isSelected = true
         tipsyBrain.setPercent(currentTitle: sender.currentTitle!)
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         tipsyBrain.setPersons(count: sender.value)
-        splitNumberLabel.text = String(tipsyBrain.returnPersons())
+        splitNumberLabel.text = String(tipsyBrain.persons)
     }
     
     @IBAction func calculatePressed(_ sender: Any) {
@@ -64,9 +48,9 @@ class CalculatorViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToResult" {
             let destinationVC = segue.destination as! ResultViewController
-            destinationVC.totalPerPerson = tipsyBrain.returnTotalPerPerson()
-            destinationVC.persons = tipsyBrain.returnPersons()
-            destinationVC.percent = tipsyBrain.returnPercent()
+            destinationVC.totalPerPerson = tipsyBrain.totalPerPerson
+            destinationVC.persons = tipsyBrain.persons
+            destinationVC.percent = tipsyBrain.percent
         }
     }
 }
