@@ -17,13 +17,14 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var splitNumberLabel: UILabel!
     
     var percent = 0.1
+    var person = 2
     
     @IBAction func tipChanged(_ sender: UIButton) {
         zeroPctButton.isSelected = false
         tenPctButton.isSelected = false
         twentyPctButton.isSelected = false
         
-//        my solution
+//        My solution:
 //        switch sender {
 //        case zeroPctButton:
 //            zeroPctButton.isSelected = true
@@ -38,17 +39,20 @@ class CalculatorViewController: UIViewController {
 //            break
 //        }
         
-//        Angela solution
+//        Angela solution:
         sender.isSelected = true
         let buttonTitle = sender.currentTitle!
         let buttonTitleMinusPercentSign = String(buttonTitle.dropLast())
         let buttonTitleAsANumber = Double(buttonTitleMinusPercentSign)!
         percent = buttonTitleAsANumber / 100
     }
-    @IBAction func stepperValueChanged(_ sender: Any) {
+    @IBAction func stepperValueChanged(_ sender: UIStepper) {
+        person = Int(sender.value)
+        splitNumberLabel.text = String(person)
     }
     @IBAction func calculatePressed(_ sender: Any) {
         print(percent)
+        print(person)
     }
     
 }
