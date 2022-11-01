@@ -10,15 +10,17 @@ import UIKit
 
 class CalculatorViewController: UIViewController {
     
+    var tipsyBrain = TipsyBrain()
+    
     @IBOutlet weak var billTextField: UITextField!
     @IBOutlet weak var zeroPctButton: UIButton!
     @IBOutlet weak var tenPctButton: UIButton!
     @IBOutlet weak var twentyPctButton: UIButton!
     @IBOutlet weak var splitNumberLabel: UILabel!
     
-    var percent = 0.1
-    var persons = 2
-    var totalPerPerson = ""
+//    var percent = 0.1
+//    var persons = 2
+//    var totalPerPerson = ""
     
     
     @IBAction func tipChanged(_ sender: UIButton) {
@@ -45,21 +47,16 @@ class CalculatorViewController: UIViewController {
         
         //        Angela solution:
         sender.isSelected = true
-        let buttonTitle = sender.currentTitle!
-        let buttonTitleMinusPercentSign = String(buttonTitle.dropLast())
-        let buttonTitleAsANumber = Double(buttonTitleMinusPercentSign)!
-        percent = buttonTitleAsANumber / 100
+        tipsyBrain.setPercent(currentTitle: sender.currentTitle!)
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
-        persons = Int(sender.value)
-        splitNumberLabel.text = String(persons)
+        tipsyBrain.setPersons(count: sender.value)
+        splitNumberLabel.text = String(tipsyBrain.returnPersons())
     }
     
     @IBAction func calculatePressed(_ sender: Any) {
-        let billTotal = billTextField.text ?? ""
-        let partOfBill = Double(billTotal)! * (1 + percent) / Double(persons)
-        totalPerPerson = String(format: "%.2f", partOfBill)
+        tipsyBrain.setTotalPerPerson(billTotal: billTextField.text ?? "")
         
         performSegue(withIdentifier: "goToResult", sender: self)
     }
@@ -67,10 +64,12 @@ class CalculatorViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToResult" {
             let destinationVC = segue.destination as! ResultViewController
-            destinationVC.totalPerPerson = totalPerPerson
-            destinationVC.persons = persons
-            destinationVC.percent = percent
+            destinationVC.totalPerPerson = tipsyBrain.returnTotalPerPerson()
+            destinationVC.persons = tipsyBrain.returnPersons()
+            destinationVC.percent = tipsyBrain.returnPercent()
         }
     }
 }
+
+
 
